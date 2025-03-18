@@ -54,8 +54,8 @@ else:
         print("Local language model initialized.")
     except Exception as e:
         print(f"Error initializing local language model: {e}")
-        use_openai = True  # Fallback to OpenAI if local fails
-        print("Falling back to OpenAI. Please configure your API key in config.txt.")
+        #use_openai = True  # Fallback to OpenAI if local fails
+        #print("Falling back to OpenAI. Please configure your API key in config.txt.")
 
 # Get settings
 prompt = config.get('DEFAULT', 'prompt')
