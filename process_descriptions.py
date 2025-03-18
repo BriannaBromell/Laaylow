@@ -5,6 +5,7 @@ try:
     import pandas as pd
     from transformers import T5ForConditionalGeneration, T5Tokenizer
     import torch
+    import sentencepiece
 except:
     """
     Creates a basic requirements.txt file if it doesn't exist.
@@ -14,6 +15,7 @@ except:
             f.write('torch\n')
             f.write('pandas\n')
             f.write('transformers\n')
+            f.write('sentencepiece\n')
         print("Created a basic 'requirements.txt' file.")
     """
     Installs packages from the given requirements.txt file.
@@ -27,6 +29,7 @@ except:
         print(f"Error: Requirements file '{requirements_file}' not found.")
 
     import pandas as pd
+    import sentencepiece
     from transformers import T5ForConditionalGeneration, T5Tokenizer
     import torch
 
