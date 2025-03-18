@@ -2,7 +2,6 @@
 import os
 import configparser, subprocess, sys, os, re
 try: 
-
     import pandas as pd
     from transformers import T5ForConditionalGeneration, T5Tokenizer
     import torch
@@ -13,6 +12,7 @@ except:
     if not os.path.exists('requirements.txt'):
         with open('requirements.txt', 'w') as f:
             f.write('torch\n')
+            f.write('pandas\n')
             f.write('transformers\n')
         print("Created a basic 'requirements.txt' file.")
     """
