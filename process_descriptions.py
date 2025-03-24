@@ -76,34 +76,6 @@ output_reworded_folder = 'reworded_descriptions'
 input_extracted_folder = 'extracted_descriptions'
 max_length = 1024
 
-def extract_and_reinsert_paragraphs(text, reword_function):
-    """
-    Extracts text between <p> and </p> tags, rewords it, and reinserts it.
-    """
-    # Find all <p>...</p> content
-    paragraphs = re.findall(r'<p>(.*?)</p>', text, re.DOTALL)
-    if not paragraphs:
-        return text  # No <p> tags found, return original text
-
-    # Reword each paragraph
-    reworded_paragraphs = []
-    for paragraph in paragraphs:
-        # Ensure the paragraph is plain text (no HTML tags)
-        plain_text = re.sub(r'<.*?>', '', paragraph)  # Remove any nested HTML tags
-        reworded_paragraph = reword_function(plain_text.strip())
-        if reworded_paragraph:
-            reworded_paragraphs.append(reworded_paragraph)
-        else:
-            reworded_paragraphs.append(paragraph)  # Fallback to original if rewording fails
-
-    # Reinsert reworded paragraphs into the original text
-    def replace_paragraph(match):
-        if reworded_paragraphs:
-            return f"<p>{reworded_paragraphs.pop(0)}</p>"
-        return match.group(0)  # Fallback to original if something goes wrong
-
-    updated_text = re.sub(r'<p>.*?</p>', replace_paragraph, text, flags=re.DOTALL)
-    return updated_text
 def reword_description(text):
     """Rewords a single description using local LLM."""
 
@@ -148,12 +120,8 @@ def process_extracted_descriptions(input_folder, output_folder):
                 original_text = infile.read()
 
             print(f"Rewording: {filename}")
-            if edit_post_paragraph:
                 # Reword the entire text
-                reworded_text = reword_description(original_text)
-            else:
-                # Extract, reword, and reinsert <p> content only
-                reworded_text = extract_and_reinsert_paragraphs(original_text, reword_description)
+            reworded_text = reword_description(original_text)
 
             if reworded_text:
                 with open(output_filename, 'w', encoding='utf-8') as outfile:
